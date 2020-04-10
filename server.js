@@ -6,7 +6,7 @@ const request = require('request');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs')
-
+// https://openweathermap.org
 app.get('/',  (req, res) => { 
   res.render('index')
 })
