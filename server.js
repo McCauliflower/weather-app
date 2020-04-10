@@ -8,9 +8,10 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs')
 // https://openweathermap.org
 app.get('/',  (req, res) => { 
-  res.render('index')
+  res.render('index', {weather: null, error: null })
 })
 const apiKey = '02fbe358c0b3922dd515c46700731781';
+
 app.post('/', (req, res) => {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
@@ -19,7 +20,7 @@ request(url, (err, response, body) => {
       res.render('index', {weather: null, error: 'Error, please try again'});
     } else {
       console.log(JSON.parse(body))
-      let weather = JSON.parse(body)
+      weather = JSON.parse(body)
       if(weather.main == undefined){
         res.render('index', {weather: null, error: 'Error, please try again'});
       } else {
