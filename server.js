@@ -14,8 +14,7 @@ const apiKey = 'dae10b9ea136edea38f673138e3f83a1';
 app.post('/', async (req, res) => {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
-  let weatherText, iconUrl, group, id
-
+  let weatherText, iconUrl
   const r = await axios.get(url)
   try{
     let body = r.data
