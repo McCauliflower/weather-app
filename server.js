@@ -10,7 +10,7 @@ app.set('view engine', 'ejs')
 app.get('/',  (req, res) => { 
   res.render('index')
 })
-const apiKey = 'f3fcf3bf64a250e8a31e20372393c2dd';
+const apiKey = '02fbe358c0b3922dd515c46700731781';
 app.post('/', (req, res) => {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
