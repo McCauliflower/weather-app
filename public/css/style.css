@@ -5,6 +5,10 @@ body {
   background: #4E4D4A;
   color: white;
 }
+.icon{
+  margin: 0 calc(50% - 50px);
+  width: 100px;
+}
 .title{
   margin-left: 10px;
   background: grey;
