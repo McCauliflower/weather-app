@@ -1,36 +1,41 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
-const request = require('request');
+const axios = require('axios')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs')
-// https://openweathermap.org
 app.get('/',  (req, res) => { 
-  res.render('index', {weather: null, error: null })
+  res.render('index', {weather: null, condition: null, error: null })
 })
-const apiKey = '02fbe358c0b3922dd515c46700731781';
+const apiKey = 'dae10b9ea136edea38f673138e3f83a1';
 
 app.post('/', (req, res) => {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
-request(url, (err, response, body) => {
-    if(err){
-      res.render('index', {weather: null, error: 'Error, please try again'});
-    } else {
-      console.log(JSON.parse(body))
-      weather = JSON.parse(body)
-      if(weather.main == undefined){
-        res.render('index', {weather: null, error: 'Error, please try again'});
+  
+  axios.get(url)
+  .then( r => {
+      let body = r.data
+      if(body.main == undefined){
+        console.log("undefined")
+        res.render('index', {weather: null, condition: null,  error: 'Error, please try again'});
       } else {
-        let weatherText = `It's ${weather.main.temp} degrees in ${weather.name}!`;
-        res.render('index', {weather: weatherText, error: null});
+        console.log("found", body.main)
+        condition = body.weather[0]['main'];
+        let weatherText = `It's ${body.main.temp} degrees in ${body.name}!`;
+        res.render('index', {weather: weatherText, condition,  error: null});
       }
-    }
-  });
+    })
+    .catch(err => {
+      console.log('caught', err)
+      res.render('index', {weather: null, error: 'Error, please try again'});
+    })
 })
 
 app.listen(3000, () => {
   console.log('Example app listening on port 3000!')
 })
+
+// <img src="<%= conditionIconUrl %>" alt="" class="logo">

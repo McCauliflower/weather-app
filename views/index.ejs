@@ -7,6 +7,7 @@
   </head>
   <body>
     <div class="container">
+      <p class="title">Simple node.js weather app</p>
       <fieldset>
         <form action="/" method="post">
           <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
@@ -18,6 +19,10 @@
 
         <% if(error !== null){ %>
           <p><%= error %></p>
+        <% } %>
+
+        <% if(condition !== null){ %>
+          <p><% condition %></p>
         <% } %>
       </fieldset>
     </div>
