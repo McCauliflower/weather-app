@@ -2,16 +2,17 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const axios = require('axios')
+const port = process.env.PORT || 4000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use('/weather-app', express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
-app.get('/',  (req, res) => {
+app.get('/weather-app',  (req, res) => {
   res.render('index', { weather: null, conditionIconUrl: '', error: null })
 })
 const apiKey = 'dae10b9ea136edea38f673138e3f83a1';
 
-app.post('/', async (req, res) => {
+app.post('/weather-app', async (req, res) => {
   let city = req.body.city;
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
   let weatherText, iconUrl
@@ -32,6 +33,6 @@ app.post('/', async (req, res) => {
   }
 })
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-})
+app.listen(port, () => {
+  console.log(`Your server is running on port:${port}`)
+});
